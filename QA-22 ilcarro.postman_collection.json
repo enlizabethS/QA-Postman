@@ -1,0 +1,477 @@
+{
+	"info": {
+		"_postman_id": "576ba185-9a17-4ffc-a89b-ff919ea4d19d",
+		"name": "QA-22 ilcarro",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26382162"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Positive",
+					"item": [
+						{
+							"name": "Login exsisted user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"username\": \"lizastepura43+2@gmail.com\",\n  \"password\": \"La159357!\"\n}"
+								},
+								"url": {
+									"raw": "ilcarro-backend.herokuapp.com/v1/user/login/usernamepassword",
+									"host": [
+										"ilcarro-backend",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"v1",
+										"user",
+										"login",
+										"usernamepassword"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Negative",
+					"item": [
+						{
+							"name": "Registration existed user(400)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {",
+											"    pm.response.to.have.status(400);",
+											"});",
+											"pm.test(\"Body matches string: User already exists\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"User already exists\");",
+											"});",
+											"pm.test(\"Error: Bad Request\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.error).to.eql(\"Bad Request\");",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"username\": \"lizastepura43+2@gmail.com\",\n  \"password\": \"La159357!\",\n  \"firstName\": \"Elizabet\",\n  \"lastName\": \"Step\"\n}"
+								},
+								"url": {
+									"raw": "ilcarro-backend.herokuapp.com/v1/user/registration/usernamepassword",
+									"host": [
+										"ilcarro-backend",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"v1",
+										"user",
+										"registration",
+										"usernamepassword"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Car",
+			"item": [
+				{
+					"name": "Positive",
+					"item": [
+						{
+							"name": "Add car with random serial number",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{Token}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"serialNumber\": \"44-42-{{$randomInt}}\",\n  \"manufacture\": \"string\",\n  \"model\": \"string\",\n  \"year\": \"string\",\n  \"fuel\": \"string\",\n  \"seats\": 0,\n  \"carClass\": \"string\",\n  \"pricePerDay\": 0,\n  \"about\": \"string\",\n  \"city\": \"Jerusalem\",\n  \"lat\": 0,\n  \"lng\": 0,\n  \"image\": \"string\",\n  \"owner\": \"string\",\n  \"bookedPeriods\": [\n    {\n      \"email\": \"string\",\n      \"startDate\": \"2023-03-20\",\n      \"endDate\": \"2023-03-20\"\n    }\n  ]\n}"
+								},
+								"url": {
+									"raw": "{{BaseURL}}/v1/cars",
+									"host": [
+										"{{BaseURL}}"
+									],
+									"path": [
+										"v1",
+										"cars"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add car with data table",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{Token}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"serialNumber\": \"{{serialNumber}}\",\n  \"manufacture\": \"{{manufacture}}\",\n  \"model\": \"{{model}}\",\n  \"year\": \"{{year}}\",\n  \"fuel\": \"{{fuel}}\",\n  \"seats\": {{seats}},\n  \"carClass\": \"{{carClass}}\",\n  \"pricePerDay\": {{pricePerDay}},\n  \"about\": \"string\",\n  \"city\": \"{{city}}\",\n  \"lat\": 0,\n  \"lng\": 0,\n  \"image\": \"string\",\n  \"owner\": \"string\",\n  \"bookedPeriods\": [\n    {\n      \"email\": \"string\",\n      \"startDate\": \"2023-03-20\",\n      \"endDate\": \"2023-03-20\"\n    }\n  ]\n}"
+								},
+								"url": {
+									"raw": "{{BaseURL}}/v1/cars",
+									"host": [
+										"{{BaseURL}}"
+									],
+									"path": [
+										"v1",
+										"cars"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get users cars",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{Token}}",
+										"type": "text"
+									},
+									{
+										"key": "",
+										"value": "",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{BaseURL}}/v1/cars/my",
+									"host": [
+										"{{BaseURL}}"
+									],
+									"path": [
+										"v1",
+										"cars",
+										"my"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete users cars",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"pm.test(\"Car deleted successfully\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.message).to.eql(\"Car deleted successfully\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{Token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{BaseURL}}/v1/cars/44-42-180",
+									"host": [
+										"{{BaseURL}}"
+									],
+									"path": [
+										"v1",
+										"cars",
+										"44-42-180"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Car booking",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{Token}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"startDate\": \"2023-03-22\",\n  \"endDate\": \"2023-03-22\"\n}"
+								},
+								"url": {
+									"raw": "{{BaseURL}}/v1/cars/44-42-967/booking",
+									"host": [
+										"{{BaseURL}}"
+									],
+									"path": [
+										"v1",
+										"cars",
+										"44-42-967",
+										"booking"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Serch car",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"city\": \"Bat Yam\",\n  \"startDate\": \"2023-03-22\",\n  \"endDate\": \"2023-03-22\"\n}"
+								},
+								"url": {
+									"raw": "{{BaseURL}}/v1/cars/search",
+									"host": [
+										"{{BaseURL}}"
+									],
+									"path": [
+										"v1",
+										"cars",
+										"search"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Negative",
+					"item": []
+				}
+			]
+		},
+		{
+			"name": "City",
+			"item": [
+				{
+					"name": "Get all cities",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseURL}}/v1/cars/cities",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"v1",
+								"cars",
+								"cities"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.test(\"Response time is less than 500ms\", function () {",
+					"    pm.expect(pm.response.responseTime).to.be.below(500);",
+					"});"
+				]
+			}
+		}
+	]
+}
